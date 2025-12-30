@@ -8,26 +8,24 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     
     <style>
-        /* --- 4. DIZAYN VA DARK MODE (EditAdScreen dagi muammo hal qilindi) --- */
         :root {
-            --primary: #FFA500; /* Sabzirang */
+            --primary: #FFA500;
             --bg-color: #F9FAFB;
             --card-bg: #FFFFFF;
             --text-main: #000000;
             --text-sub: #888888;
-            --input-bg: #F0F0F0; /* Input foni */
+            --input-bg: #F0F0F0;
             --border: #E5E7EB;
             --green: #4CAF50;
             --red: #FF5252;
         }
 
-        /* Dark Mode uchun o'zgaruvchilar */
         [data-theme="dark"] {
             --bg-color: #121212;
             --card-bg: #1E1E1E;
             --text-main: #FFFFFF;
             --text-sub: #AAAAAA;
-            --input-bg: #2C2C2C; /* Qorong'u input foni (TUZATILDI) */
+            --input-bg: #2C2C2C;
             --border: #333333;
         }
 
@@ -35,25 +33,20 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            margin: 0; padding: 0;
-            padding-bottom: 80px; /* Bottom Nav joyi */
-            transition: 0.3s;
-            -webkit-tap-highlight-color: transparent;
+            margin: 0; padding: 0; padding-bottom: 80px;
+            transition: 0.3s; -webkit-tap-highlight-color: transparent;
         }
 
-        /* UI ELEMENTLARI */
         .screen { display: none; animation: fade 0.3s; }
         .screen.active { display: block; }
         @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
         .app-bar {
-            padding: 15px 20px;
-            background: var(--bg-color);
+            padding: 15px 20px; background: var(--bg-color);
             position: sticky; top: 0; z-index: 50;
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* 2. FILTERLASH VA QIDIRUV (HomeScreen) */
         .search-area { padding: 0 20px 10px; display: flex; gap: 10px; }
         .search-box {
             flex: 1; background: var(--input-bg); border-radius: 12px;
@@ -69,18 +62,16 @@
             color: white; cursor: pointer;
         }
 
-        /* E'LON KARTASI (JobCard) */
         .card {
             background: var(--card-bg); margin: 10px 20px; padding: 15px;
             border-radius: 16px; position: relative;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        /* Saqlash tugmasi (Yurakcha) */
         .bookmark-btn {
             position: absolute; top: 15px; right: 15px;
             color: var(--text-sub); cursor: pointer; z-index: 2;
         }
-        .bookmark-btn.saved { color: var(--primary); } /* Bosilganda rangi o'zgaradi */
+        .bookmark-btn.saved { color: var(--primary); }
 
         .card-header { display: flex; gap: 15px; margin-bottom: 10px; }
         .icon-box {
@@ -89,8 +80,8 @@
             color: var(--primary);
         }
         .price { color: var(--green); font-weight: bold; }
-        
-        /* 1. BATAFSIL OYNASI (JobDetailsScreen) */
+
+        /* DETAILS SCREEN */
         #details-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color); z-index: 100; overflow-y: auto;
@@ -106,26 +97,18 @@
             background: var(--bg-color); border-radius: 25px 25px 0 0;
             margin-top: -25px; position: relative; padding: 25px;
         }
-        /* Bloklarga ajratilgan ma'lumotlar */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .info-item {
-            background: var(--input-bg); padding: 15px; border-radius: 12px; text-align: center;
-        }
+        .info-item { background: var(--input-bg); padding: 15px; border-radius: 12px; text-align: center; }
         .info-label { font-size: 12px; color: var(--text-sub); display: block; margin-bottom: 5px; }
         .info-value { font-weight: bold; color: var(--text-main); }
 
-        /* 3. CHAT VA SAQLANGANLAR (ChatScreen) */
+        /* CHAT & SAVED */
         .tabs { display: flex; padding: 0 20px; margin-bottom: 15px; }
-        .tab {
-            flex: 1; text-align: center; padding: 10px;
-            color: var(--text-sub); border-bottom: 2px solid transparent; cursor: pointer;
-        }
+        .tab { flex: 1; text-align: center; padding: 10px; color: var(--text-sub); border-bottom: 2px solid transparent; cursor: pointer; }
         .tab.active { color: var(--primary); border-color: var(--primary); font-weight: bold; }
-
-        /* Delete tugmasi (Saqlanganlar uchun) */
         .delete-btn { color: var(--red); cursor: pointer; }
 
-        /* NAVIGATION */
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed; bottom: 20px; left: 20px; right: 20px;
             background: var(--card-bg); height: 65px; border-radius: 20px;
@@ -137,21 +120,30 @@
         .add-fab {
             width: 55px; height: 55px; background: var(--primary);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; margin-top: -30px; box-shadow: 0 4px 10px rgba(255,165,0,0.4);
+            color: white; margin-top: -30px; box-shadow: 0 4px 10px rgba(255,165,0,0.4); cursor: pointer;
         }
 
-        /* FILTER MODAL */
+        /* MODALS (Filter & Add) */
         .modal {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end;
         }
         .modal-content {
             background: var(--card-bg); width: 100%; padding: 25px;
-            border-radius: 25px 25px 0 0; animation: slideUp 0.3s;
+            border-radius: 25px 25px 0 0; animation: slideUp 0.3s; box-sizing: border-box;
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        select { width: 100%; padding: 15px; background: var(--input-bg); border: none; border-radius: 12px; color: var(--text-main); font-size: 16px; margin-top: 10px; }
+        select, input.modal-input { 
+            width: 100%; padding: 15px; background: var(--input-bg); 
+            border: none; border-radius: 12px; color: var(--text-main); 
+            font-size: 16px; margin-top: 10px; box-sizing: border-box;
+        }
+        .btn-full {
+            width: 100%; padding: 15px; background: var(--primary); 
+            color: white; border: none; border-radius: 12px; 
+            font-weight: bold; margin-top: 20px; font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -187,11 +179,9 @@
             <div class="tab active" onclick="switchTab('chats', this)">Suhbatlar</div>
             <div class="tab" onclick="switchTab('saved', this)">Saqlanganlar</div>
         </div>
-
         <div id="chats-content">
             <div style="text-align: center; margin-top: 50px; color: var(--text-sub);">Suhbatlar yo'q</div>
         </div>
-
         <div id="saved-content" style="display: none;">
             <div id="savedList" style="padding-bottom: 20px;"></div>
         </div>
@@ -208,7 +198,6 @@
                 <h2 id="dt-title" style="margin: 0;">Sarlavha</h2>
                 <span id="dt-bookmark" class="material-icons-round" style="font-size: 30px; color: var(--text-sub); cursor: pointer;" onclick="toggleBookmarkFromDetails()">bookmark_border</span>
             </div>
-            
             <div class="info-grid">
                 <div class="info-item">
                     <span class="info-label">Narx</span>
@@ -227,7 +216,6 @@
                     <span class="info-value" id="dt-cat">Ish</span>
                 </div>
             </div>
-
             <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px; padding: 15px; border: 1px solid var(--border); border-radius: 15px;">
                 <div style="width: 40px; height: 40px; background: #ddd; border-radius: 50%;"></div>
                 <div>
@@ -235,7 +223,6 @@
                     <div style="font-size: 13px; color: var(--primary);">Profilga o'tish</div>
                 </div>
             </div>
-            
             <br><br><br>
         </div>
     </div>
@@ -251,14 +238,24 @@
                 <option value="Andijon">Andijon</option>
             </select>
             <br><br>
-            <button onclick="closeFilter()" style="width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold;">Yopish</button>
+            <button class="btn-full" onclick="closeFilter()">Yopish</button>
+        </div>
+    </div>
+
+    <div id="addModal" class="modal" onclick="if(event.target == this) closeAddModal()">
+        <div class="modal-content">
+            <h3>Yangi E'lon</h3>
+            <input type="text" id="newTitle" class="modal-input" placeholder="Ish nomi (G'isht terish)">
+            <input type="text" id="newPrice" class="modal-input" placeholder="Narx (200,000 so'm)">
+            <input type="text" id="newLocation" class="modal-input" placeholder="Manzil (Toshkent)">
+            <button class="btn-full" onclick="saveNewJob()">E'lonni Joylash</button>
         </div>
     </div>
 
     <div class="bottom-nav">
         <span class="material-icons-round nav-icon active" onclick="nav('home', this)">home</span>
         <span class="material-icons-round nav-icon" onclick="nav('chat', this)">chat_bubble</span>
-        <div class="add-fab" onclick="Telegram.WebApp.showAlert('Tez orada...')">
+        <div class="add-fab" onclick="openAddModal()">
             <span class="material-icons-round">add</span>
         </div>
         <span class="material-icons-round nav-icon" onclick="nav('ads', this)">assignment</span>
@@ -266,33 +263,70 @@
     </div>
 
     <script>
-        // 5. MA'LUMOTLAR BAZASI (job_data.dart o'rniga)
-        const jobsDB = [
+        // Boshlang'ich ma'lumotlar
+        const defaultJobs = [
             { id: 1, title: "G'isht teruvchi", location: "Toshkent", price: "250,000", time: "1 soat", cat: "Qurilish" },
             { id: 2, title: "Yuk tashish", location: "Samarqand", price: "100,000", time: "3 soat", cat: "Logistika" },
-            { id: 3, title: "Santexnik", location: "Andijon", price: "Kelishilgan", time: "Kecha", cat: "Usta" },
-            { id: 4, title: "Elektrik", location: "Toshkent", price: "300,000", time: "Bugun", cat: "Usta" }
+            { id: 3, title: "Santexnik", location: "Andijon", price: "Kelishilgan", time: "Kecha", cat: "Usta" }
         ];
 
-        // SAVED JOBS (Bazaga yozadi degan joyi - LocalStorage ishlatamiz)
+        // 1. MA'LUMOTLARNI YUKLASH (LocalStorage dan)
+        // Agar xotirada bo'lsa o'shani olamiz, bo'lmasa defaultJobs ni olamiz
+        let jobsDB = JSON.parse(localStorage.getItem('myJobsData')) || defaultJobs;
         let savedIDs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
 
-        // INIT
         const tg = window.Telegram.WebApp;
         tg.expand();
-        // 4. DARK MODE INIT
         if (tg.colorScheme === 'dark') document.body.setAttribute('data-theme', 'dark');
 
         renderHome();
 
-        // --- FUNKSIYALAR ---
+        // --- YANGI: E'LON QO'SHISH ---
+        function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+        function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
 
-        // 2. HOME EKRANINI CHIZISH (Filter bilan)
+        function saveNewJob() {
+            const title = document.getElementById('newTitle').value;
+            const price = document.getElementById('newPrice').value;
+            const location = document.getElementById('newLocation').value;
+
+            if(!title || !price || !location) {
+                tg.showAlert("Barcha maydonlarni to'ldiring!");
+                return;
+            }
+
+            // Yangi e'lon obyekti
+            const newJob = {
+                id: Date.now(), // Unikal ID (vaqt bo'yicha)
+                title: title,
+                price: price,
+                location: location,
+                time: "Hozirgina",
+                cat: "Boshqa"
+            };
+
+            // Ro'yxat boshiga qo'shamiz
+            jobsDB.unshift(newJob);
+            
+            // Xotiraga saqlaymiz (sahifa yangilansa o'chmasligi uchun)
+            localStorage.setItem('myJobsData', JSON.stringify(jobsDB));
+
+            // Ekranni yangilaymiz
+            renderHome();
+            closeAddModal();
+            tg.showAlert("E'lon muvaffaqiyatli qo'shildi!");
+            
+            // Inputlarni tozalash
+            document.getElementById('newTitle').value = "";
+            document.getElementById('newPrice').value = "";
+            document.getElementById('newLocation').value = "";
+        }
+
+        // --- ASOSIY ---
         function renderHome() {
             const list = document.getElementById('jobList');
             list.innerHTML = "";
             
-            // Filterlash
             const q = document.getElementById('searchInput').value.toLowerCase();
             const region = document.getElementById('regionSelect').value;
 
@@ -306,7 +340,6 @@
 
             filtered.forEach(job => {
                 const isSaved = savedIDs.includes(job.id);
-                // 2. YURAKCHA TUGMASI LOGIKASI
                 const card = `
                     <div class="card" onclick="openDetails(${job.id})">
                         <span class="material-icons-round bookmark-btn ${isSaved ? 'saved' : ''}" 
@@ -330,24 +363,23 @@
             });
         }
 
-        // 2. FILTRNI ISHLATISH
         function applyFilters() { renderHome(); }
         function openFilter() { document.getElementById('filterModal').style.display = 'flex'; }
         function closeFilter() { document.getElementById('filterModal').style.display = 'none'; }
 
-        // 1 & 2. SAQLASH LOGIKASI (Toggle Save)
+        // --- SAQLASH (Bookmark) ---
         function toggleSave(id) {
             if (savedIDs.includes(id)) {
-                savedIDs = savedIDs.filter(x => x !== id); // O'chirish
+                savedIDs = savedIDs.filter(x => x !== id);
             } else {
-                savedIDs.push(id); // Qo'shish
+                savedIDs.push(id);
             }
             localStorage.setItem('savedJobs', JSON.stringify(savedIDs));
-            renderHome(); // Uyni yangilash
-            renderSavedTab(); // Saqlanganlar tabini yangilash
+            renderHome();
+            renderSavedTab();
         }
 
-        // 1. BATAFSIL OYNASI (Details Screen)
+        // --- BATAFSIL ---
         let currentDetailId = null;
         function openDetails(id) {
             currentDetailId = id;
@@ -359,7 +391,6 @@
             document.getElementById('dt-time').innerText = job.time;
             document.getElementById('dt-cat').innerText = job.cat;
 
-            // Bookmark iconini to'g'irlash
             const isSaved = savedIDs.includes(id);
             const bmBtn = document.getElementById('dt-bookmark');
             bmBtn.innerText = isSaved ? 'bookmark' : 'bookmark_border';
@@ -375,7 +406,6 @@
         function toggleBookmarkFromDetails() {
             if(currentDetailId) {
                 toggleSave(currentDetailId);
-                // Iconni yangilash
                 const isSaved = savedIDs.includes(currentDetailId);
                 const bmBtn = document.getElementById('dt-bookmark');
                 bmBtn.innerText = isSaved ? 'bookmark' : 'bookmark_border';
@@ -383,7 +413,7 @@
             }
         }
 
-        // 3. CHAT EKRANI (Tablar)
+        // --- CHAT & SAVED ---
         function switchTab(tabName, el) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
@@ -398,7 +428,6 @@
             }
         }
 
-        // 3. SAQLANGANLAR RO'YXATI VA DELETE
         function renderSavedTab() {
             const list = document.getElementById('savedList');
             list.innerHTML = "";
@@ -429,16 +458,13 @@
             });
         }
 
-        // NAVIGATION
         function nav(screen, el) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screen + '-screen').classList.add('active');
-            
             document.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
             if(el) el.classList.add('active');
         }
         
-        // 4. THEME TOGGLE (Qo'lda o'zgartirish uchun)
         function toggleTheme() {
             if(document.body.getAttribute('data-theme') === 'dark') {
                 document.body.removeAttribute('data-theme');
@@ -449,4 +475,3 @@
     </script>
 </body>
 </html>
-
