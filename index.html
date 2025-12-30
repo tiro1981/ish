@@ -10,12 +10,16 @@
     <style>
         :root {
             --primary: #FFA500;
+            --primary-dark: #F57C00;
             --bg-color: #F9FAFB;
             --card-bg: #FFFFFF;
             --text-color: #000000;
             --text-secondary: #888888;
             --input-bg: #F0F0F0;
             --border-color: #E5E7EB;
+            --success: #4CAF50;
+            --danger: #FF5252;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         /* DARK MODE */
@@ -26,337 +30,437 @@
             --text-secondary: #AAAAAA;
             --input-bg: #2C2C2C;
             --border-color: #333333;
+            --shadow: none;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 80px; /* Menyu uchun joy */
+            padding-bottom: 80px; /* Bottom Nav uchun joy */
             transition: background 0.3s, color 0.3s;
-        }
-
-        /* HEADER */
-        header {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .app-title h1 { margin: 0; font-size: 22px; font-weight: 800; }
-        .app-title p { margin: 0; font-size: 13px; color: var(--text-secondary); }
-
-        /* SEARCH & FILTER */
-        .search-bar {
-            padding: 0 20px;
-            display: flex;
-            gap: 10px;
-        }
-        .search-input {
-            flex: 1;
-            background: var(--input-bg);
-            border-radius: 15px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-        }
-        .search-input input {
-            border: none;
-            background: transparent;
-            width: 100%;
-            margin-left: 10px;
-            font-size: 16px;
-            color: var(--text-color);
-            outline: none;
-        }
-        .filter-btn {
-            background: var(--primary);
-            width: 50px;
-            height: 50px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
-        }
-
-        /* LIST */
-        .list-header {
-            padding: 20px 20px 10px;
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-        }
-        #job-list { padding: 0 20px; }
-
-        /* JOB CARD */
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .card-top { display: flex; gap: 15px; }
-        .icon-box {
-            width: 50px; height: 50px;
-            background: rgba(255, 165, 0, 0.15);
-            border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--primary);
-        }
-        .card-info h3 { margin: 0 0 5px; font-size: 16px; }
-        .location { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
-        .divider { height: 1px; background: var(--border-color); margin: 15px 0; }
-        .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-        .price { color: #00C853; font-weight: 800; font-size: 16px; }
-
-        /* BOTTOM NAV */
-        .bottom-nav {
-            position: fixed;
-            bottom: 20px; left: 20px; right: 20px;
-            background: var(--card-bg);
-            height: 70px;
-            border-radius: 25px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        .nav-item { color: #CCCCCC; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
-        .add-btn {
-            width: 55px; height: 55px;
-            background: linear-gradient(135deg, #FFA500, #FF4500);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
-            margin-top: -30px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* SCREENS */
-        .screen { display: none; }
-        .screen.active { display: block; }
-        
-        /* MODAL (FILTER) */
-        .modal {
-            display: none;
-            position: fixed;
-            bottom: 0; left: 0; right: 0; top: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 200;
-            align-items: flex-end;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            width: 100%;
-            border-radius: 25px 25px 0 0;
-            padding: 25px;
-            animation: slideUp 0.3s ease;
-        }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
-        /* CHIPS */
-        .chips { display: flex; gap: 10px; margin: 10px 0 20px; }
-        .chip {
-            padding: 8px 15px;
-            background: var(--input-bg);
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .chip.active { background: var(--primary); color: white; }
+        .screen { display: none; padding-top: 10px; }
+        .screen.active { display: block; animation: fadeIn 0.3s; }
 
-        .btn {
-            background: var(--primary); color: white; border: none;
-            padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; font-size: 16px;
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* HEADER */
+        .app-bar {
+            padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: var(--bg-color); z-index: 100;
         }
+        .app-bar h1 { margin: 0; font-size: 22px; font-weight: 800; }
+        .app-bar p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+
+        /* INPUTS */
+        .search-container { padding: 0 20px 10px; display: flex; gap: 10px; }
+        .input-box {
+            flex: 1; background: var(--input-bg); border-radius: 12px;
+            padding: 12px; display: flex; align-items: center;
+        }
+        .input-box input {
+            border: none; background: transparent; width: 100%; margin-left: 10px;
+            color: var(--text-color); font-size: 16px; outline: none;
+        }
+        .filter-btn {
+            width: 50px; height: 50px; background: var(--primary); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; color: white;
+            box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3); cursor: pointer;
+        }
+
+        /* JOB CARD */
+        .card {
+            background: var(--card-bg); margin: 10px 20px; padding: 15px;
+            border-radius: 16px; box-shadow: var(--shadow); position: relative;
+        }
+        .card-header { display: flex; gap: 15px; margin-bottom: 10px; }
+        .icon-sq {
+            width: 45px; height: 45px; background: rgba(255, 165, 0, 0.15);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: var(--primary);
+        }
+        .card-info h3 { margin: 0 0 5px; font-size: 16px; }
+        .card-info span { font-size: 13px; color: var(--text-secondary); }
+        
+        .card-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid var(--border-color); paddingTop: 10px; margin-top: 10px;
+        }
+        .price-tag { color: var(--success); font-weight: bold; font-size: 15px; }
+        
+        /* Save Button inside Card */
+        .save-btn {
+            position: absolute; top: 15px; right: 15px;
+            color: var(--text-secondary); cursor: pointer;
+        }
+        .save-btn.saved { color: var(--primary); }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: var(--card-bg); height: 65px; border-radius: 20px;
+            display: flex; justify-content: space-around; align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); z-index: 999;
+        }
+        .nav-item { color: #BBB; display: flex; flex-direction: column; align-items: center; }
+        .nav-item.active { color: var(--primary); }
+        .fab {
+            width: 55px; height: 55px; background: linear-gradient(135deg, #FFA500, #FF4500);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; margin-top: -30px; box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
+        }
+
+        /* DETAILS SCREEN */
+        .details-header {
+            height: 200px; background: #DDD; position: relative;
+            background-image: url('https://source.unsplash.com/random/800x600/?construction');
+            background-size: cover;
+        }
+        .back-btn {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(0,0,0,0.5); color: white; padding: 8px; border-radius: 50%;
+        }
+        .details-body { padding: 20px; background: var(--bg-color); border-radius: 25px 25px 0 0; margin-top: -20px; position: relative; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .info-box { background: var(--input-bg); padding: 15px; border-radius: 12px; text-align: center; }
+        .info-label { font-size: 11px; color: var(--text-secondary); display: block; margin-bottom: 5px; }
+        .info-val { font-weight: bold; font-size: 14px; }
+        
+        .action-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: bold; color: white; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-green { background: var(--success); }
+        .btn-orange { background: var(--primary); }
+
+        /* TABS (Chat Screen) */
+        .tabs { display: flex; padding: 0 20px; margin-bottom: 10px; }
+        .tab { flex: 1; text-align: center; padding: 15px; border-bottom: 2px solid transparent; color: var(--text-secondary); cursor: pointer; }
+        .tab.active { border-color: var(--primary); color: var(--primary); font-weight: bold; }
+        
+        /* UTILS */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <div id="home-screen" class="screen active">
-        <header>
-            <div class="app-title">
+        <div class="app-bar">
+            <div>
                 <h1>UzMardikor</h1>
                 <p>Toshkent, O'zbekiston</p>
             </div>
-            <span class="material-icons-round" onclick="toggleTheme()" style="cursor: pointer;">brightness_4</span>
-        </header>
+            <span class="material-icons-round" onclick="toggleTheme()">brightness_4</span>
+        </div>
 
-        <div class="search-bar">
-            <div class="search-input">
+        <div class="search-container">
+            <div class="input-box">
                 <span class="material-icons-round" style="color: #888;">search</span>
-                <input type="text" id="searchInput" placeholder="Ish qidirish..." onkeyup="filterJobs()">
+                <input type="text" id="searchInput" placeholder="Ish qidirish..." onkeyup="handleSearch()">
             </div>
-            <div class="filter-btn" onclick="openFilter()">
+            <div class="filter-btn" onclick="Telegram.WebApp.showAlert('Filter menyusi')">
                 <span class="material-icons-round">tune</span>
             </div>
         </div>
 
-        <div class="list-header">
-            <span>So'nggi e'lonlar</span>
-            <span style="color: #888; font-weight: normal;" id="resultCount">0 ta natija</span>
+        <div style="padding: 0 20px; display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <b>So'nggi e'lonlar</b>
+            <span id="jobCount" style="color: var(--text-secondary);">0 ta</span>
         </div>
 
-        <div id="job-list">
+        <div id="jobListContainer" style="padding-bottom: 100px;">
             </div>
     </div>
 
-    <div id="chat-screen" class="screen" style="padding: 20px; text-align: center;">
-        <h2>Xabarlar markazi</h2>
-        <p style="color: #888;">Hozircha xabarlar yo'q</p>
+    <div id="details-screen" class="screen" style="z-index: 200; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-color); overflow-y: auto;">
+        <div class="details-header" id="detailImage">
+            <div class="back-btn" onclick="goBack()">
+                <span class="material-icons-round">arrow_back</span>
+            </div>
+        </div>
+        <div class="details-body">
+            <h2 id="detailTitle" style="margin-top: 0;">Sarlavha</h2>
+            <p id="detailLocation" style="color: var(--text-secondary); display: flex; align-items: center; gap: 5px;">
+                <span class="material-icons-round" style="font-size:16px;">location_on</span> Toshkent
+            </p>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <span class="info-label">Narx</span>
+                    <span class="info-val" id="detailPrice" style="color: var(--success);">0</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Vaqt</span>
+                    <span class="info-val" id="detailTime">0</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Ishchilar</span>
+                    <span class="info-val">2 kishi</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Tajriba</span>
+                    <span class="info-val">1 yil</span>
+                </div>
+            </div>
+
+            <h3>Tavsif</h3>
+            <p style="color: var(--text-secondary); line-height: 1.5;">
+                Ushbu ish uchun mas'uliyatli va tajribali ustalar kerak. Ish haqi kunlik to'lanadi. Tushlik ish beruvchi hisobidan.
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px; padding: 10px; border: 1px solid var(--border-color); border-radius: 15px;">
+                <div style="width: 40px; height: 40px; background: #DDD; border-radius: 50%; background-image: url('https://i.pravatar.cc/150'); background-size: cover;"></div>
+                <div>
+                    <div style="font-weight: bold;">Alijon Valiyev</div>
+                    <div style="font-size: 12px; color: var(--primary);">Profilni ko'rish</div>
+                </div>
+            </div>
+
+            <div class="action-btns">
+                <button class="btn btn-green" onclick="window.open('tel:+998901234567')">
+                    <span class="material-icons-round">phone</span> Qo'ng'iroq
+                </button>
+                <button class="btn btn-orange" onclick="Telegram.WebApp.showAlert('Xabar yuborildi')">
+                    <span class="material-icons-round">chat</span> Xabar
+                </button>
+            </div>
+            <div style="height: 50px;"></div>
+        </div>
     </div>
 
-    <div id="profile-screen" class="screen" style="padding: 20px; text-align: center;">
-        <div style="width: 100px; height: 100px; background: #ddd; border-radius: 50%; margin: 20px auto; background-image: url('https://i.pravatar.cc/300'); background-size: cover;"></div>
-        <h2>Hikmatillo Karimov</h2>
-        <p>+998 90 123 45 67</p>
-        <button class="btn" style="background: red; margin-top: 20px;">Chiqish</button>
+    <div id="chat-screen" class="screen">
+        <div class="app-bar" style="justify-content: center;">
+            <h1>Xabarlar Markazi</h1>
+        </div>
+        <div class="tabs">
+            <div class="tab active" onclick="switchSubTab('chats', this)">Suhbatlar</div>
+            <div class="tab" onclick="switchSubTab('saved', this)">Saqlanganlar</div>
+        </div>
+
+        <div id="chats-view">
+            <div style="text-align: center; margin-top: 50px; color: var(--text-secondary);">
+                <span class="material-icons-round" style="font-size: 48px; opacity: 0.5;">chat_bubble_outline</span>
+                <p>Suhbatlar yo'q</p>
+            </div>
+        </div>
+
+        <div id="saved-view" class="hidden">
+            <div id="savedListContainer">
+                </div>
+        </div>
+    </div>
+
+    <div id="profile-screen" class="screen">
+        <div style="text-align: center; padding: 40px 20px;">
+            <div style="width: 100px; height: 100px; background: #ddd; border-radius: 50%; margin: 0 auto 20px; background-image: url('https://i.pravatar.cc/300'); background-size: cover; border: 3px solid var(--primary);"></div>
+            <h2>Hikmatillo Karimov</h2>
+            <p style="color: var(--text-secondary);">+998 90 123 45 67</p>
+            
+            <div style="margin-top: 30px; background: var(--card-bg); border-radius: 15px; text-align: left;">
+                <div style="padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; gap: 10px;">
+                    <span class="material-icons-round" style="color: var(--primary);">person</span> Mening ma'lumotlarim
+                </div>
+                <div style="padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; gap: 10px;">
+                    <span class="material-icons-round" style="color: var(--primary);">history</span> E'lonlar tarixi
+                </div>
+                <div style="padding: 15px; color: var(--danger); display: flex; gap: 10px;">
+                    <span class="material-icons-round">logout</span> Chiqish
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="bottom-nav">
-        <span class="material-icons-round nav-item active" onclick="switchTab('home', this)">home</span>
-        <span class="material-icons-round nav-item" onclick="switchTab('chat', this)">chat_bubble</span>
-        <div class="add-btn" onclick="Telegram.WebApp.showAlert('E\'lon qo\'shish hozircha ishlamaydi')">
+        <div class="nav-item active" onclick="navTo('home', this)">
+            <span class="material-icons-round">home</span>
+        </div>
+        <div class="nav-item" onclick="navTo('chat', this)">
+            <span class="material-icons-round">chat_bubble</span>
+        </div>
+        <div class="fab" onclick="Telegram.WebApp.showAlert('E\'lon qo\'shish')">
             <span class="material-icons-round">add</span>
         </div>
-        <span class="material-icons-round nav-item" onclick="switchTab('ads', this)">assignment_ind</span>
-        <span class="material-icons-round nav-item" onclick="switchTab('profile', this)">person</span>
-    </div>
-
-    <div id="filterModal" class="modal" onclick="if(event.target == this) closeFilter()">
-        <div class="modal-content">
-            <h3>Filtrlash</h3>
-            <p>Hudud</p>
-            <select id="regionSelect" style="width: 100%; padding: 10px; border-radius: 10px; background: var(--input-bg); color: var(--text-color); border: none;">
-                <option value="all">Barchasi</option>
-                <option value="Toshkent">Toshkent</option>
-                <option value="Samarqand">Samarqand</option>
-                <option value="Andijon">Andijon</option>
-            </select>
-
-            <p>Ish turi</p>
-            <div class="chips">
-                <div class="chip active" onclick="selectChip(this)">Barchasi</div>
-                <div class="chip" onclick="selectChip(this)">Kunlik</div>
-                <div class="chip" onclick="selectChip(this)">Soatlik</div>
-            </div>
-
-            <button class="btn" onclick="applyFilter()">Ko'rsatish</button>
+        <div class="nav-item" onclick="navTo('ads', this)">
+            <span class="material-icons-round">assignment</span>
+        </div>
+        <div class="nav-item" onclick="navTo('profile', this)">
+            <span class="material-icons-round">person</span>
         </div>
     </div>
 
     <script>
-        // MA'LUMOTLAR BAZASI
-        const jobs = [
-            { title: "G'isht teruvchi", location: "Toshkent, Chilonzor", price: "250,000 so'm", time: "1 soat oldin" },
-            { title: "Yuk tushirish", location: "Toshkent, Sergeli", price: "100,000 so'm", time: "3 soat oldin" },
-            { title: "Santexnik", location: "Andijon, Markaz", price: "Kelishilgan", time: "Kecha" },
-            { title: "Elektrik ustasi", location: "Samarqand", price: "300,000 so'm", time: "Hozirgina" }
+        // --- DATA ---
+        const allJobs = [
+            { id: 1, title: "G'isht teruvchi usta", location: "Toshkent, Chilonzor", price: "250,000 so'm", time: "1 soat oldin" },
+            { id: 2, title: "Yuk tushirish xizmati", location: "Toshkent, Sergeli", price: "100,000 so'm", time: "3 soat oldin" },
+            { id: 3, title: "Santexnik kerak", location: "Andijon, Markaz", price: "Kelishilgan", time: "Kecha" },
+            { id: 4, title: "Elektrik ustasi", location: "Samarqand", price: "300,000 so'm", time: "Hozirgina" },
+            { id: 5, title: "Oshxona yordamchisi", location: "Toshkent, Yunusobod", price: "150,000 so'm", time: "Bugun" }
         ];
+        
+        // Saqlanganlar ro'yxati (ID lar saqlanadi)
+        let savedIds = new Set(); 
 
-        // Telegramni ishga tushirish
+        // --- INIT ---
         const tg = window.Telegram.WebApp;
-        tg.expand(); // To'liq ekran
+        tg.expand();
+        
+        // Dark mode auto-detect
+        if (tg.colorScheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
 
-        // Dastur yuklanganda
         window.onload = () => {
-            renderJobs(jobs);
-            
-            // Tizim mavzusini aniqlash
-            if (tg.colorScheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-            }
+            renderList(allJobs, 'jobListContainer');
+            updateCount(allJobs.length);
         };
 
-        // E'lonlarni chizish
-        function renderJobs(data) {
-            const list = document.getElementById('job-list');
-            document.getElementById('resultCount').innerText = data.length + " ta natija";
-            list.innerHTML = "";
+        // --- RENDER FUNCTIONS ---
+        function renderList(jobs, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+            
+            if(jobs.length === 0) {
+                container.innerHTML = "<div style='text-align:center; padding:20px; color:#888;'>Ma'lumot yo'q</div>";
+                return;
+            }
 
-            data.forEach(job => {
-                const card = `
-                    <div class="card" onclick="tg.showAlert('${job.title}')">
-                        <div class="card-top">
-                            <div class="icon-box"><span class="material-icons-round">work</span></div>
+            jobs.forEach(job => {
+                const isSaved = savedIds.has(job.id);
+                const html = `
+                    <div class="card" onclick="openDetails(${job.id})">
+                        <span class="material-icons-round save-btn ${isSaved ? 'saved' : ''}" 
+                              onclick="event.stopPropagation(); toggleSave(${job.id}, this)">
+                              ${isSaved ? 'bookmark' : 'bookmark_border'}
+                        </span>
+                        <div class="card-header">
+                            <div class="icon-sq">
+                                <span class="material-icons-round">work</span>
+                            </div>
                             <div class="card-info">
                                 <h3>${job.title}</h3>
-                                <div class="location">
-                                    <span class="material-icons-round" style="font-size: 14px;">location_on</span>
+                                <span>
+                                    <span class="material-icons-round" style="font-size:12px; vertical-align:middle;">location_on</span> 
                                     ${job.location}
-                                </div>
+                                </span>
                             </div>
                         </div>
-                        <div class="divider"></div>
-                        <div class="card-bottom">
-                            <span style="color: var(--text-secondary);">${job.time}</span>
-                            <span class="price">${job.price}</span>
+                        <div class="card-footer">
+                            <span style="color: var(--text-secondary); font-size:13px;">
+                                <span class="material-icons-round" style="font-size:12px; vertical-align:middle;">access_time</span>
+                                ${job.time}
+                            </span>
+                            <span class="price-tag">${job.price}</span>
                         </div>
                     </div>
                 `;
-                list.innerHTML += card;
+                container.innerHTML += html;
             });
         }
 
-        // Qidiruv
-        function filterJobs() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = jobs.filter(j => 
-                j.title.toLowerCase().includes(query) || 
-                j.location.toLowerCase().includes(query)
-            );
-            renderJobs(filtered);
-        }
-
-        // Tablar (Menyu)
-        function switchTab(screenName, el) {
+        // --- NAVIGATION ---
+        function navTo(screenId, el) {
+            // Ekranni o'zgartirish
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenName + '-screen').classList.add('active');
+            // Details ekranini yopish (agar ochiq bo'lsa)
+            document.getElementById('details-screen').classList.remove('active');
             
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            // Kerakli ekrani ochish
+            if(screenId === 'ads') {
+                // Vaqtincha Home ni ochamiz (yoki bo'sh sahifa)
+                document.getElementById('home-screen').classList.add('active');
+                Telegram.WebApp.showAlert("Mening e'lonlarim bo'limi");
+            } else {
+                document.getElementById(screenId + '-screen').classList.add('active');
+            }
+
+            // Bottom Nav aktiv holati
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
             if(el) el.classList.add('active');
         }
 
-        // Dark Mode
+        function switchSubTab(tabName, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            
+            const chats = document.getElementById('chats-view');
+            const saved = document.getElementById('saved-view');
+
+            if(tabName === 'chats') {
+                chats.classList.remove('hidden');
+                saved.classList.add('hidden');
+            } else {
+                chats.classList.add('hidden');
+                saved.classList.remove('hidden');
+                renderSaved(); // Saqlanganlarni yangilash
+            }
+        }
+
+        // --- ACTIONS ---
+        function toggleSave(id, btn) {
+            if (savedIds.has(id)) {
+                savedIds.delete(id);
+                btn.innerHTML = 'bookmark_border';
+                btn.classList.remove('saved');
+                Telegram.WebApp.HapticFeedback.selectionChanged();
+            } else {
+                savedIds.add(id);
+                btn.innerHTML = 'bookmark';
+                btn.classList.add('saved');
+                Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+            // Agar saqlanganlar oynasi ochiq bo'lsa, uni yangilaymiz
+            if(!document.getElementById('saved-view').classList.contains('hidden')) {
+                renderSaved();
+            }
+        }
+
+        function renderSaved() {
+            const savedJobs = allJobs.filter(j => savedIds.has(j.id));
+            renderList(savedJobs, 'savedListContainer');
+        }
+
+        function openDetails(id) {
+            const job = allJobs.find(j => j.id === id);
+            if(!job) return;
+
+            document.getElementById('detailTitle').innerText = job.title;
+            document.getElementById('detailPrice').innerText = job.price;
+            document.getElementById('detailLocation').innerHTML = `<span class="material-icons-round" style="font-size:16px;">location_on</span> ${job.location}`;
+            document.getElementById('detailTime').innerText = job.time;
+            
+            document.getElementById('details-screen').classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function goBack() {
+            document.getElementById('details-screen').classList.remove('active');
+        }
+
+        function handleSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allJobs.filter(j => 
+                j.title.toLowerCase().includes(q) || 
+                j.location.toLowerCase().includes(q)
+            );
+            renderList(filtered, 'jobListContainer');
+            updateCount(filtered.length);
+        }
+        
+        function updateCount(num) {
+            document.getElementById('jobCount').innerText = num + " ta";
+        }
+
         function toggleTheme() {
             if (document.body.hasAttribute('data-theme')) {
                 document.body.removeAttribute('data-theme');
             } else {
                 document.body.setAttribute('data-theme', 'dark');
             }
-        }
-
-        // Filter Modal
-        function openFilter() { document.getElementById('filterModal').style.display = 'flex'; }
-        function closeFilter() { document.getElementById('filterModal').style.display = 'none'; }
-        
-        function selectChip(el) {
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function applyFilter() {
-            // Oddiy filter logikasi
-            const region = document.getElementById('regionSelect').value;
-            let filtered = jobs;
-            
-            if(region !== 'all') {
-                filtered = jobs.filter(j => j.location.includes(region));
-            }
-            
-            renderJobs(filtered);
-            closeFilter();
         }
     </script>
 </body>
